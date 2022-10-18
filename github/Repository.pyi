@@ -42,6 +42,7 @@ from github.PullRequest import PullRequest
 from github.PullRequestComment import PullRequestComment
 from github.Referrer import Referrer
 from github.RepositoryKey import RepositoryKey
+from github.RepositoryLicense import RepositoryLicense
 from github.RepositoryPreferences import RepositoryPreferences
 from github.SelfHostedActionsRunner import SelfHostedActionsRunner
 from github.SourceImport import SourceImport
@@ -510,6 +511,8 @@ class Repository(CompletableGithubObject):
     @property
     def languages_url(self) -> str: ...
     def legacy_search_issues(self, state: str, keyword: str) -> List[Issue]: ...
+    @property
+    def license(self) -> RepositoryLicense: ...
     def mark_notifications_as_read(self, last_read_at: datetime = ...) -> None: ...
     @property
     def master_branch(self) -> Optional[str]: ...

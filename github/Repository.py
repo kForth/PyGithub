@@ -65,6 +65,7 @@
 # Copyright 2018 Yves Zumbach <yzumbach@andrew.cmu.edu>                        #
 # Copyright 2018 Leying Chen <leyingc@andrew.cmu.edu>                          #
 # Copyright 2020 Pascal Hofmann <mail@pascalhofmann.de>                        #
+# Copyright 2022 Kestin Goforth <kgoforth1503@gmail.com>                       #
 #                                                                              #
 # This file is part of PyGithub.                                               #
 # http://pygithub.readthedocs.io/                                              #
@@ -127,6 +128,7 @@ import github.PullRequest
 import github.Referrer
 import github.Repository
 import github.RepositoryKey
+import github.RepositoryLicense
 import github.RepositoryPreferences
 import github.SelfHostedActionsRunner
 import github.SourceImport
@@ -536,6 +538,14 @@ class Repository(github.GithubObject.CompletableGithubObject):
         """
         self._completeIfNotSet(self._languages_url)
         return self._languages_url.value
+
+    @property
+    def license(self):
+        """
+        :type: :class:`github.License.License`
+        """
+        self._completeIfNotSet(self._license)
+        return self._license.value
 
     @property
     def master_branch(self):
@@ -3752,6 +3762,7 @@ class Repository(github.GithubObject.CompletableGithubObject):
         self._labels_url = github.GithubObject.NotSet
         self._language = github.GithubObject.NotSet
         self._languages_url = github.GithubObject.NotSet
+        self._license = github.GithubObject.NotSet
         self._master_branch = github.GithubObject.NotSet
         self._merges_url = github.GithubObject.NotSet
         self._milestones_url = github.GithubObject.NotSet
@@ -3908,6 +3919,10 @@ class Repository(github.GithubObject.CompletableGithubObject):
             self._language = self._makeStringAttribute(attributes["language"])
         if "languages_url" in attributes:  # pragma no branch
             self._languages_url = self._makeStringAttribute(attributes["languages_url"])
+        if "license" in attributes:  # pragma no branch
+            self._license = self._makeClassAttribute(
+                github.RepositoryLicense.RepositoryLicense, attributes["license"]
+            )
         if "master_branch" in attributes:  # pragma no branch
             self._master_branch = self._makeStringAttribute(attributes["master_branch"])
         if "merges_url" in attributes:  # pragma no branch
